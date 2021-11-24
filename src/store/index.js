@@ -1,12 +1,8 @@
-import { createStore } from 'vuex';
+const { createStore } = require("vuex");
+const { taskModule } = require("./taskModule");
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  },
-});
+export const store = createStore({
+    modules: {
+        task: taskModule
+    }
+})
