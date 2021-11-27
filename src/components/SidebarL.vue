@@ -1,9 +1,10 @@
 <template>
     <sidebar class="sidebar">
-        <div class="add">
+        <div @click="showAddList" class="add">
             <img :src="add" alt="add svg">
             <div class="add-text">Добавить папку</div>
         </div>
+        <add-list v-if="show" @show="hideList"></add-list>
         <div v-if="false" class="all-tasks">
             <img :src="entypo" alt="list svg">
             <div class="list-item">Все задачи</div>
@@ -12,9 +13,26 @@
 </template>
 
 <script>
-import entypo from '@/assets/entypo-list.svg'
-import add from '@/assets/add.svg'
+import AddList from '@/components/AddList.vue'
+import entypo from '@/assets/entypo-list.svg';
+import add from '@/assets/add.svg';
     export default {
+        data() {
+            return {
+                show: false
+            }
+        },
+        methods: {
+            showAddList() {
+                this.show = true
+            },
+            hideList(bool) {
+                this.show = bool
+            }
+        },
+        components: {
+            AddList
+        },
         setup() {
             return {
                 entypo,
