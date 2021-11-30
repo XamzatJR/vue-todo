@@ -10,6 +10,7 @@
 
 <script>
 import deleteSvg from "@/assets/delete.svg";
+import {mapState} from 'vuex'
     export default {
         props: {
             task: {
@@ -21,6 +22,11 @@ import deleteSvg from "@/assets/delete.svg";
             return {
                 deleteSvg
             };
+        },
+        computed: {
+            ...mapState({
+                
+            })
         }
     }
 </script>

@@ -1,14 +1,17 @@
 <template>
-    <div class="list" v-for="list in $store.state.task.lists" :key="list.id">
+    <div class="list" v-for="list in lists" :key="list.id">
         <div class="list-color" :style="{background: list.color}"></div>
-        <div class="list-name">list.name</div>
+        <div class="list-name">{{list.name}}</div>  
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
     export default {
-        props: {
-
+        computed: {
+            ...mapState({
+                lists: state => state.task.lists
+            })
         }
     }
 </script>
@@ -19,6 +22,8 @@
     height: 37px;
     background: inherit;
     display: flex;
+    align-items: center;
+    margin: 0 20px;
     &-name {
         font-weight: 600;
         font-size: 14px;
@@ -28,6 +33,8 @@
     &-color {
         width: 10px;
         height: 10px;
+        border-radius: 15px;
+        margin: 0 10px 0 12px;
     }
     &__active {
         background: #fff;

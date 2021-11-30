@@ -11,38 +11,52 @@
 
         <div class="colors">
             <div 
-                @click="this.active = color.id"
-                :class="[active === color.id ? 'color__active' : null]"
+                @click="this.active = color"
+                :class="[active?.id === color.id ? 'color__active' : null]"
                 class="color" 
-                v-for="color in $store.state.task.colors" 
+                v-for="color in colors" 
                 :key="color.id" 
                 :style="{background: color.color}"
             >
             </div>
             
         </div>
-        <my-btn class="btn__long">Добавить</my-btn>
+        <my-btn @click="createTask" class="btn__long">Добавить</my-btn>
     </div>
 </template>
 
 <script>
 import close from '@/assets/close.svg'
+import store from '@/store/index.js'
     export default {
         data() {
             return {
                 active: null,
+                colors: [{id: 1, color: '#C9D1D3'},
+                    {id: 2, color: '#42B883'},
+                    {id: 3, color: '#64C4ED'},
+                    {id: 4, color: '#FFBBCC'},
+                    {id: 5, color: '#B6E6BD'},
+                    {id: 6, color: '#C355F5'},
+                    {id: 7, color: '#09011A'},
+                    {id: 8, color: '#FF6464'}],
                 listName: ''
             }
         },
         methods: {
             createTask() {
-                
+                store.commit('setLists', {...this.active, name: this.listName})
+                this.$emit('show', false)
+                this.listName = ''
             }
         },
         setup() {
             return {
                 close
             }
+        },
+        mounted() {
+            this.active = this.colors[0]
         }
     }
 </script>

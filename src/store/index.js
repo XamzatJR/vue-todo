@@ -1,8 +1,9 @@
 const { createStore } = require("vuex");
 const { taskModule } = require("./taskModule");
 
-export default createStore({
+const store = createStore({
     modules: {
         task: taskModule
     }
 })
+export default store

@@ -1,21 +1,24 @@
 <template>
     <sidebar class="sidebar">
-        <div v-if="$store.state.task.lists >= 1" class="all-tasks">
+        <div v-if="lists.length >= 1" class="all-tasks">
             <img :src="entypo" alt="list svg">
             <div class="list-item">Все задачи</div>
         </div>
+        <list></list>
         <div @click="showAddList" class="add">
             <img :src="add" alt="add svg">
             <div class="add-text">Добавить папку</div>
         </div>
-        <add-list v-if="show" @show="hideList"></add-list>
+        <add-list v-show="show" @show="hideList"></add-list>
     </sidebar>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import AddList from '@/components/AddList.vue'
 import entypo from '@/assets/entypo-list.svg';
 import add from '@/assets/add.svg';
+import List from '@/components/List.vue';
     export default {
         data() {
             return {
@@ -30,8 +33,14 @@ import add from '@/assets/add.svg';
                 this.show = bool
             }
         },
+        computed: {
+            ...mapState({
+                lists: state => state.task.lists
+            })
+        },
         components: {
-            AddList
+            AddList,
+            List
         },
         setup() {
             return {
@@ -49,7 +58,7 @@ import add from '@/assets/add.svg';
     position: relative;
     & .all-tasks {
         display: flex;
-        margin: 57px 0 0 28px;
+        margin: 57px 0 28px 28px;
         cursor: pointer;
         & img {
             width: 18px;
@@ -68,7 +77,7 @@ import add from '@/assets/add.svg';
     align-items: center;
     width: 160px;
     height: 37px;
-    margin: 22px 0 0 20px;
+    margin: 28px 0 0 20px;
     cursor: pointer;
     & img {
         width: 13px;
