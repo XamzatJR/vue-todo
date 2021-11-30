@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'my-btn'
+        name: 'my-btn',
     }
 </script>
 
@@ -14,11 +14,22 @@
 .btn {
     min-width: 90px;
     min-height: 34px;
+    font-weight: 600;
+    font-size: 14px;
     background: #F4F6F8;
     border-radius: 4px;
     cursor: pointer;
-    &__add {
+    border: none;
+    color: #FFFFFF;
+    letter-spacing: 0.15px;
+    &__long, &__mid {
         background: #4DD599;
+    }
+    &__long {
+        width: 200px;
+    }
+    &__mid {
+        width: 145px;
     }
 }
 </style>

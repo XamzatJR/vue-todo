@@ -1,14 +1,14 @@
 <template>
     <sidebar class="sidebar">
+        <div v-if="$store.state.task.lists >= 1" class="all-tasks">
+            <img :src="entypo" alt="list svg">
+            <div class="list-item">Все задачи</div>
+        </div>
         <div @click="showAddList" class="add">
             <img :src="add" alt="add svg">
             <div class="add-text">Добавить папку</div>
         </div>
         <add-list v-if="show" @show="hideList"></add-list>
-        <div v-if="false" class="all-tasks">
-            <img :src="entypo" alt="list svg">
-            <div class="list-item">Все задачи</div>
-        </div>
     </sidebar>
 </template>
 
@@ -46,9 +46,10 @@ import add from '@/assets/add.svg';
 .sidebar {
     background: #f4f6f8;
     height: 100%;
+    position: relative;
     & .all-tasks {
         display: flex;
-        margin: 57px 0 0 27px;
+        margin: 57px 0 0 28px;
         cursor: pointer;
         & img {
             width: 18px;
