@@ -20,10 +20,11 @@
     border-radius: 4px;
     cursor: pointer;
     border: none;
-    color: #FFFFFF;
+    color: #9C9C9C;
     letter-spacing: 0.15px;
     &__long, &__mid {
         background: #4DD599;
+        color: #fff;
     }
     &__long {
         width: 200px;

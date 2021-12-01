@@ -1,9 +1,5 @@
 <template>
     <sidebar class="sidebar">
-        <div v-if="lists.length >= 1" class="all-tasks">
-            <img :src="entypo" alt="list svg">
-            <div class="list-item">Все задачи</div>
-        </div>
         <list></list>
         <div @click="showAddList" class="add">
             <img :src="add" alt="add svg">
@@ -16,7 +12,6 @@
 <script>
 import {mapState} from 'vuex'
 import AddList from '@/components/AddList.vue'
-import entypo from '@/assets/entypo-list.svg';
 import add from '@/assets/add.svg';
 import List from '@/components/List.vue';
     export default {
@@ -44,7 +39,6 @@ import List from '@/components/List.vue';
         },
         setup() {
             return {
-                entypo,
                 add
             }
         },
@@ -56,20 +50,6 @@ import List from '@/components/List.vue';
     background: #f4f6f8;
     height: 100%;
     position: relative;
-    & .all-tasks {
-        display: flex;
-        margin: 57px 0 28px 28px;
-        cursor: pointer;
-        & img {
-            width: 18px;
-            height: 18px;
-            margin-right: 6px;
-        }
-    }
-    & .list-item {
-        font-weight: normal;
-        font-size: 14px;
-    }
 }
 .add {
     display: flex;

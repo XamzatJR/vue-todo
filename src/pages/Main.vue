@@ -2,16 +2,45 @@
     <div class="container">
         <sidebar-l></sidebar-l>
         <main class="main">
-            <h1 class="zero-tasks"> Задачи отсутствуют</h1>
+            <h1 v-if="activeList === null && tasks.length < 1" 
+            class="zero-tasks">
+            Задачи отсутствуют
+            </h1>
+            <add-task v-if="!show"></add-task>
+            <div @click="this.show = false" v-if="show" class="new_task">
+                <img :src="add" alt="add new task">
+                <div class="new_task__name">Новая задача</div>
+            </div>
         </main>
     </div>
 </template>
 
 <script>
-import SidebarL from '../components/SidebarL.vue';
+import SidebarL from '@/components/SidebarL.vue';
+import {mapState} from 'vuex'
+import AddTask from '../components/AddTask.vue';
+import add from '@/assets/add.svg';
+
 export default {
+    data() {
+        return {
+            show: true
+        }
+    },
     components: {
-        SidebarL
+        SidebarL,
+        AddTask
+    },
+    computed: {
+        ...mapState({
+            activeList: state => state.task.activeList,
+            tasks: state => state.task.tasks
+        })
+    },
+    setup() {
+            return {
+                add
+            }
     }
 };
 </script>
@@ -26,6 +55,7 @@ export default {
 }
 .main {
     height: 100%;
+    padding-left: 55px;
 }
 .zero-tasks {
     font-size: 32px;
@@ -33,5 +63,23 @@ export default {
     font-family: Montserrat;
     font-weight: bold;
     margin: 234px 0 0 103px;
+}
+.new_task {
+    width: 134px;
+    height: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    &__name {
+        font-weight: 500;
+        font-size: 16px;
+        letter-spacing: 0.15px;
+        color: #B4B4B4;
+    }
+    img {
+        width: 14px;
+        height: 14px;
+    }
 }
 </style>

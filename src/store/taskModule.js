@@ -3,6 +3,7 @@ export const taskModule = {
         return {
             tasks: [],
             lists: [],
+            activeList: null
         }
     },
     getters: {
@@ -14,6 +15,9 @@ export const taskModule = {
         },
         setLists(state, list) {
             state.lists.push(list);
+        },
+        setActiveList(state, list) {
+            state.activeList = list
         }
     },
     actions: {

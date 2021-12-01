@@ -28,5 +28,15 @@
     &::-webkit-input-placeholder {
         color: #C7C7C7;
     }
+    &__short {
+        margin-top: 18px;
+        width: 200px;
+        height: 32px;
+    }
+    &__long {
+        width: 415px;
+        height: 38px;
+    }
+    
 }
 </style>

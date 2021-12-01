@@ -6,7 +6,7 @@
         alt="close button" />
 
         <my-input v-model:listName="listName" 
-        class="add-list__input" 
+        class="input__short" 
         placeholder="Название папки" />
 
         <div class="colors">
@@ -45,7 +45,7 @@ import store from '@/store/index.js'
         },
         methods: {
             createTask() {
-                store.commit('setLists', {...this.active, name: this.listName})
+                store.commit('setLists', {...this.active, name: this.listName, id: Date.now()})
                 this.$emit('show', false)
                 this.listName = ''
             }
@@ -88,11 +88,6 @@ import store from '@/store/index.js'
     display: flex;
     flex-direction: column;
     align-items: center;
-    &__input {
-        margin-top: 18px;
-        width: 200px;
-        height: 32px;
-    }
 }
 .close {
     cursor: pointer;
