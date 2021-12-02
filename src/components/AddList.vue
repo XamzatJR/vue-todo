@@ -5,7 +5,7 @@
         :src="close" 
         alt="close button" />
 
-        <my-input v-model:listName="listName" 
+        <my-input v-model="listName" 
         class="input__short" 
         placeholder="Название папки" />
 

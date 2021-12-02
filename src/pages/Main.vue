@@ -6,8 +6,15 @@
             class="zero-tasks">
             Задачи отсутствуют
             </h1>
-            <add-task v-if="!show"></add-task>
-            <div @click="this.show = false" v-if="show" class="new_task">
+            <div v-else-if="activeList !== null" class="main__list">
+                <h1 class="main__list-name" :style="{color: activeList.color}">
+                    {{activeList.name}}
+                </h1>
+                <img :src="edit" alt="edit icon">
+            </div>
+            <task></task>
+            <add-task v-if="!show && activeList !== null" @show="hideTask"></add-task>
+            <div @click="this.show = false" v-if="show && activeList !== null" class="new_task">
                 <img :src="add" alt="add new task">
                 <div class="new_task__name">Новая задача</div>
             </div>
@@ -20,6 +27,8 @@ import SidebarL from '@/components/SidebarL.vue';
 import {mapState} from 'vuex'
 import AddTask from '../components/AddTask.vue';
 import add from '@/assets/add.svg';
+import edit from '@/assets/edite.svg';
+import Task from '../components/Task.vue';
 
 export default {
     data() {
@@ -27,9 +36,15 @@ export default {
             show: true
         }
     },
+    methods: {
+        hideTask(bool) {
+            this.show = bool
+        }
+    },
     components: {
         SidebarL,
-        AddTask
+        AddTask,
+        Task
     },
     computed: {
         ...mapState({
@@ -39,7 +54,8 @@ export default {
     },
     setup() {
             return {
-                add
+                add,
+                edit
             }
     }
 };
@@ -56,6 +72,23 @@ export default {
 .main {
     height: 100%;
     padding-left: 55px;
+    &__list {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #F2F2F2;
+        padding-bottom: 20px;
+        margin-bottom: 31px;
+        &-name {
+            font-weight: bold;
+            font-size: 32px;
+            margin-right: 14px;
+        }
+        img {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+    }
 }
 .zero-tasks {
     font-size: 32px;
@@ -71,6 +104,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    margin-top: 20px;
     &__name {
         font-weight: 500;
         font-size: 16px;

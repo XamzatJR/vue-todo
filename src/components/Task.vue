@@ -1,5 +1,5 @@
 <template>
-    <div :key="task.id" class="task">
+    <div :key="task.id" v-for="task in tasks" class="task">
         <div class="task-item">
             <div class="circle"></div>
             {{task.title}}            
@@ -12,12 +12,6 @@
 import deleteSvg from "@/assets/delete.svg";
 import {mapState} from 'vuex'
     export default {
-        props: {
-            task: {
-                type: Object,
-                required: true
-            }
-        },
         setup() {
             return {
                 deleteSvg
@@ -25,7 +19,7 @@ import {mapState} from 'vuex'
         },
         computed: {
             ...mapState({
-                
+                tasks: state => state.task.tasks
             })
         }
     }
