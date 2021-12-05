@@ -1,76 +1,95 @@
 <template>
-        <div @click="$store.commit('setActiveList', null)" :class="activeList === null ? 'list__active' : null" 
-        v-if="lists.length >= 1" class="list">
-            <img :src="entypo" alt="list svg">
-            <div class="list-name">Все задачи</div>
+    <div>
+        <div  class="main__list">
+            <h1 class="main__list-name" :style="{color: activeList.color}">
+                {{activeList.name}}
+            </h1>
+            <img :src="edit" alt="edit icon">
         </div>
-    <div class="list" 
-    :class="[activeList?.id === list.id ? 'list__active' : null]" 
-    v-for="list in lists"
-    :key="list.id">
-        <div class="list-color" :style="{background: list.color}"></div>
-        <div @click="$store.commit('setActiveList', list)" class="list-name">{{list.name.length >=15 ? list.name.slice(0,14) + '...' : list.name}}</div>  
+        <task></task>
+        <add-task v-if="!show && activeList !== null" @show="hideTask"></add-task>
+        <div @click="this.show = false" 
+            v-if="show && activeList !== null" class="new_task">
+                <img :src="add" alt="add new task">
+                <div class="new_task__name">Новая задача</div>
+        </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import entypo from '@/assets/entypo-list.svg';
+import {mapState} from 'vuex'
+import add from '@/assets/add.svg';
+import edit from '@/assets/edite.svg';
+import AddTask from '@/components/AddTask.vue';
+import Task from '@/components/Task.vue';
 
-    export default {
-        methods: {
-
-        },
-        computed: {
-            ...mapState({
-                lists: state => state.task.lists,
-                activeList: state => state.task.activeList
-            })
-        },
-        setup() {
-            return {
-                entypo,
-            }
+export default {
+    data() {
+        return {
+            show: true
+        }
+    },
+    methods: {
+        hideTask(bool) {
+            this.show = bool
+        }
+    },
+    computed: {
+        ...mapState({
+            activeList: state => state.task.activeList,
+            lists: state => state.task.lists
+        })
+    },
+    components: {
+        AddTask,
+        Task
+    },
+    setup() {
+        return {
+            add,
+            edit
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
-.list {
-    width: 160px;
-    height: 37px;
-    background: inherit;
+.main {
+    &__list {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #F2F2F2;
+        padding-bottom: 20px;
+        margin-bottom: 31px;
+        &-name {
+            font-weight: bold;
+            font-size: 32px;
+            margin-right: 14px;
+        }
+        img {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+    }
+}
+.new_task {
+    height: 19px;
     display: flex;
     align-items: center;
-    margin-left: 20px;
-    &:first-child {
-        margin: 57px 0 28px 18px;
-        cursor: pointer;
-        & img {
-            width: 18px;
-            height: 18px;
-            margin-right: 6px;
-            margin-left: 10px;
-        }
-        &-name {
-            font-weight: normal;
-        }
-    }
-    &-name {
-        font-weight: 600;
-        font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+    &__name {
+        font-weight: 500;
+        font-size: 16px;
         letter-spacing: 0.15px;
-        color: #000;
-        cursor: pointer;
+        color: #B4B4B4;
     }
-    &-color {
-        width: 10px;
-        height: 10px;
-        border-radius: 15px;
-        margin: 0 10px 0 12px;
-    }
-    &__active {
-        background: #fff;
+    img {
+        width: 14px;
+        height: 14px;
+        margin-right: 19px;
+        margin-left: 3px;
     }
 }
 </style>
