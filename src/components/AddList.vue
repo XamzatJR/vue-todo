@@ -6,7 +6,7 @@
         alt="close button" />
 
         <my-input v-model="listName" 
-        class="input__short" 
+        class="input__short input" 
         placeholder="Название папки" />
 
         <div class="colors">
@@ -21,7 +21,7 @@
             </div>
             
         </div>
-        <my-btn @click="createTask" class="btn__long">Добавить</my-btn>
+        <my-btn @click="createList" class="btn__long">Добавить</my-btn>
     </div>
 </template>
 
@@ -44,8 +44,8 @@ import store from '@/store/index.js'
             }
         },
         methods: {
-            createTask() {
-                store.commit('setLists', {...this.active, name: this.listName, id: Date.now()})
+            createList() {
+                store.commit('setLists', {...this.active, name: this.listName, id: Date.now(), tasks: []})
                 this.$emit('show', false)
                 this.listName = ''
             }

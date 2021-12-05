@@ -1,6 +1,6 @@
 <template>
     <sidebar class="sidebar">
-        <list></list>
+        <side-bar-list></side-bar-list>
         <div @click="showAddList" class="add">
             <img :src="add" alt="add svg">
             <div class="add-text">Добавить папку</div>
@@ -13,7 +13,7 @@
 import {mapState} from 'vuex'
 import AddList from '@/components/AddList.vue'
 import add from '@/assets/add.svg';
-import List from '@/components/List.vue';
+import SideBarList from '@/components/SideBarList.vue';
     export default {
         data() {
             return {
@@ -35,7 +35,7 @@ import List from '@/components/List.vue';
         },
         components: {
             AddList,
-            List
+            SideBarList,
         },
         setup() {
             return {

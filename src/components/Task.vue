@@ -1,16 +1,16 @@
 <template>
-    <div :key="task.id" v-for="task in tasks" class="task">
-        <div class="task-item">
-            <div class="circle"></div>
+    <div :key="task.id" v-for="task in filteredTasks[0].tasks" class="task">
+        <my-input :id="task.id" type="checkbox" class="checkbox" />
+        <label :for="task.id" class="task-item">
             {{task.title}}            
-            </div>
-        <img :src="deleteSvg" />
+        </label>
+        <img :src="deleteSvg" @click="$store.commit('removeTask', task)" />
     </div>
 </template>
 
 <script>
 import deleteSvg from "@/assets/delete.svg";
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
     export default {
         setup() {
             return {
@@ -19,7 +19,11 @@ import {mapState} from 'vuex'
         },
         computed: {
             ...mapState({
-                tasks: state => state.task.tasks
+                lists: state => state.task.lists,
+                activeList: state => state.task.activeList
+            }),
+            ...mapGetters({
+                filteredTasks: 'filteredTasks'
             })
         }
     }
@@ -28,30 +32,47 @@ import {mapState} from 'vuex'
 <style lang="scss" scoped>
 .task {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
     &-item {
         font-weight: 500;
         font-size: 16px;
         cursor: pointer;
-        &.circle {
+    }
+    & img {
+        cursor: pointer;
+        width: 11px;
+        height: 11px;
+        margin-left: auto;
+    }
+}
+.checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 2em;
             width: 20px;
             height: 20px;
             border: 2px solid #E8E8E8;
             margin-right: 15px;
+            cursor: pointer;
             &:hover {
                 background: #F2F2F2;
                 border: 2px solid #F2F2F2;
-                &::before {
-                    content: ' ';
+                background-image: url('../assets/nike.svg');
+                background-repeat: no-repeat;
+                background-size: 13px;
+                background-position: center;
+            }
+            &:checked {
+                background-color: #4DD599;
+                background-image: url('../assets/nike.svg');
+                background-repeat: no-repeat;
+                background-size: 13px;
+                background-position: center;
+                border: none;
+                &+label {
+                    text-decoration: line-through;
                 }
             }
         }
-    }
-    &img {
-        cursor: pointer;
-        width: 11px;
-        height: 11px;
-    }
-    
-}
 </style>
