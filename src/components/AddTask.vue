@@ -2,7 +2,7 @@
     <div class="add_task">
         <my-input v-model="taskName" class="input__long input" placeholder="Текст задачи" />
         <div class="add_task_btns">
-        <my-btn @click="createTask" class="btn__mid">Добавить задачу</my-btn>
+        <my-btn @click="createTask" class="btn__mid" :class="[taskName.length > 0 ? null : 'not-allowed']">Добавить задачу</my-btn>
         <my-btn @click="this.$emit('show', true)">Отмена</my-btn>
         </div>
     </div>
@@ -29,9 +29,11 @@ import {mapState} from 'vuex'
         },
         methods: {
             createTask() {
-                store.commit('setTasks', {id: Date.now(), title: this.taskName});
-                this.$emit('show', true);
-                this.taskName = '';
+                if (this.taskName) {
+                    store.commit('setTasks', {id: Date.now(), title: this.taskName,listId: this.activeList.id, completed: false});
+                    this.$emit('show', true);
+                    this.taskName = '';
+                }
             }
         }
     }
@@ -45,6 +47,10 @@ import {mapState} from 'vuex'
         margin-top: 16px;
         & .btn__mid {
             margin-right: 9px;
+        }
+        & .not-allowed {
+            cursor: not-allowed;
+            opacity: 0.5;
         }
     }
 }

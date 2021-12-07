@@ -1,30 +1,27 @@
 <template>
-    <div :key="task.id" v-for="task in filteredTasks[0].tasks" class="task">
-        <my-input :id="task.id" type="checkbox" class="checkbox" />
+    <div :key="task.id" v-for="task in tasks" class="task">
+        <my-input @click="$store.commit('setCompleted', task)" 
+        :id="task.id" type="checkbox" class="checkbox" :class="[task.completed ? 'checked' : null]" />
         <label :for="task.id" class="task-item">
             {{task.title}}            
         </label>
-        <img :src="deleteSvg" @click="$store.commit('removeTask', task)" />
+            <img :src="deleteSvg" @click="$store.commit('removeTask', task)" />
     </div>
 </template>
 
 <script>
 import deleteSvg from "@/assets/delete.svg";
-import {mapState, mapGetters} from 'vuex'
+
     export default {
+        props: {
+            tasks: {
+                required: true
+            }
+        },
         setup() {
             return {
                 deleteSvg
             };
-        },
-        computed: {
-            ...mapState({
-                lists: state => state.task.lists,
-                activeList: state => state.task.activeList
-            }),
-            ...mapGetters({
-                filteredTasks: 'filteredTasks'
-            })
         }
     }
 </script>
@@ -39,11 +36,15 @@ import {mapState, mapGetters} from 'vuex'
         font-size: 16px;
         cursor: pointer;
     }
+    &:hover img {
+        opacity: 1;
+    }
     & img {
         cursor: pointer;
         width: 11px;
         height: 11px;
         margin-left: auto;
+        opacity: 0;
     }
 }
 .checkbox {
@@ -63,7 +64,7 @@ import {mapState, mapGetters} from 'vuex'
                 background-size: 13px;
                 background-position: center;
             }
-            &:checked {
+            &.checked {
                 background-color: #4DD599;
                 background-image: url('../assets/nike.svg');
                 background-repeat: no-repeat;

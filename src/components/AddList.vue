@@ -21,7 +21,7 @@
             </div>
             
         </div>
-        <my-btn @click="createList" class="btn__long">Добавить</my-btn>
+        <my-btn @click="createList" :class="[listName.length < 1 ? 'not-allowed' : null]" class="btn__long">Добавить</my-btn>
     </div>
 </template>
 
@@ -45,9 +45,12 @@ import store from '@/store/index.js'
         },
         methods: {
             createList() {
-                store.commit('setLists', {...this.active, name: this.listName, id: Date.now(), tasks: []})
-                this.$emit('show', false)
-                this.listName = ''
+                if (this.listName) {
+                    store.commit('setLists', {...this.active, name: this.listName, id: Date.now(), tasks: []})
+                    this.$emit('show', false)
+                    this.listName = ''
+                }
+                
             }
         },
         setup() {
@@ -94,5 +97,9 @@ import store from '@/store/index.js'
     position: absolute;
     top: -6px;
     right: -6px;
+}
+button.not-allowed {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 </style>

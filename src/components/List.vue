@@ -1,12 +1,17 @@
 <template>
     <div>
         <div  class="main__list">
-            <h1 class="main__list-name" :style="{color: activeList.color}">
-                {{activeList.name}}
+            <h1 class="main__list-name" :style="{color: list?.color}">
+                {{list?.name}}
             </h1>
-            <img :src="edit" alt="edit icon">
+            <img @click="editTitle" :src="edit" alt="edit icon">
         </div>
-        <task></task>
+        <template v-if="activeList === list">
+            <task :tasks="filteredTasks[0]?.tasks"></task>
+        </template>
+        <template v-else>
+            <task :tasks="list?.tasks"></task>
+        </template>
         <add-task v-if="!show && activeList !== null" @show="hideTask"></add-task>
         <div @click="this.show = false" 
             v-if="show && activeList !== null" class="new_task">
@@ -17,7 +22,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import add from '@/assets/add.svg';
 import edit from '@/assets/edite.svg';
 import AddTask from '@/components/AddTask.vue';
@@ -29,15 +34,28 @@ export default {
             show: true
         }
     },
+    props: {
+        list: {
+            required: true      
+        }
+    },
     methods: {
         hideTask(bool) {
             this.show = bool
+        },
+        editTitle() {
+            const newTitle = window.prompt('Новое название листа', this.list.name);
+            if (newTitle) this.list.name = newTitle;
+            localStorage.setItem('lists', JSON.stringify(this.lists))
         }
     },
     computed: {
         ...mapState({
             activeList: state => state.task.activeList,
             lists: state => state.task.lists
+        }),
+        ...mapGetters({
+            filteredTasks: 'filteredTasks'
         })
     },
     components: {
@@ -66,7 +84,11 @@ export default {
             font-size: 32px;
             margin-right: 14px;
         }
+        &:hover img {
+            opacity: 1;
+        }
         img {
+            opacity: 0;
             width: 15px;
             height: 15px;
             cursor: pointer;

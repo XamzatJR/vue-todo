@@ -1,28 +1,26 @@
 <template>
-        <div @click="$store.commit('setActiveList', null)" :class="activeList === null ? 'list__active' : null" 
+        <div @click="$store.commit('setActiveList', null), $router.push(`/`)" :class="activeList === null ? 'list__active' : null" 
         v-if="lists.length >= 1" class="list">
             <img :src="entypo" alt="list svg">
             <div class="list-name">Все задачи</div>
         </div>
-    <div class="list" 
+    <div class="list"
     :class="[activeList?.id === list.id ? 'list__active' : null]" 
     v-for="list in lists"
-    :key="list.id">
+    :key="list.id" @click="$router.push(`/list/${list.id}`)">
         <div class="list-color" :style="{background: list.color}"></div>
         <div @click="$store.commit('setActiveList', list)" class="list-name">
             {{list.name.length >=15 ? list.name.slice(0,14) + '...' : list.name}}
-        </div>  
+        </div>
+        <img class="list__img" @click="$store.commit('removeList', list)" :src="deleteSvg" alt="delete list button">
     </div>
 </template>
 
 <script>
 import {mapState} from 'vuex';
 import entypo from '@/assets/entypo-list.svg';
-
+import deleteSvg from "@/assets/delete.svg";
     export default {
-        methods: {
-
-        },
         computed: {
             ...mapState({
                 lists: state => state.task.lists,
@@ -32,6 +30,7 @@ import entypo from '@/assets/entypo-list.svg';
         setup() {
             return {
                 entypo,
+                deleteSvg
             }
         }
     }
@@ -45,6 +44,9 @@ import entypo from '@/assets/entypo-list.svg';
     display: flex;
     align-items: center;
     margin-left: 20px;
+    &:hover &__img {
+        opacity: 1;
+    }
     &:first-child {
         margin: 57px 0 28px 18px;
         cursor: pointer;
@@ -66,11 +68,19 @@ import entypo from '@/assets/entypo-list.svg';
         cursor: pointer;
     }
     &-color {
-        width: 10px;
-        height: 10px;
+        min-width: 10px;
+        min-height: 10px;
         border-radius: 15px;
         margin: 0 10px 0 12px;
     }
+    &__img {
+        margin-left: auto;
+        margin-right: 14px;
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+        opacity: 0;
+    } 
     &__active {
         background: #fff;
     }
