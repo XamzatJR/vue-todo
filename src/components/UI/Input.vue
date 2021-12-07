@@ -1,5 +1,5 @@
 <template>
-    <input :value="modelValue" @input="updateInput" type="text" />
+    <input autofocus :value="modelValue" @input="updateInput" type="text" />
 </template>
 
 <script>
