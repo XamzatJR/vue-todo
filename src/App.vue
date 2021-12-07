@@ -1,11 +1,17 @@
 <template>
-  <router-view>
-  </router-view>
+  <div class="container">
+    <sidebar-l></sidebar-l>
+    <router-view>
+    </router-view>
+  </div>
 </template>
 
 <script>
+import SidebarL from '@/components/SidebarL.vue';
 export default {
-
+  components: {
+    SidebarL
+  }
 };
 </script>
 
@@ -16,5 +22,12 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
+}
+.container {
+    margin: 150px auto;
+    width: 746px;
+    height: 529px;
+    display: grid;
+    grid-template-columns: 200px 546px;
 }
 </style>
