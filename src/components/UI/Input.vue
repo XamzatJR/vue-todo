@@ -1,5 +1,5 @@
 <template>
-    <input autofocus :value="modelValue" @input="updateInput" type="text" />
+    <input ref="focusMe" :value="modelValue" @input="updateInput" type="text" />
 </template>
 
 <script>
@@ -12,7 +12,10 @@
             updateInput(event) {
                 this.$emit('update:modelValue', event.target.value)
             }
-        }
+        },
+      mounted() {
+        this.$nextTick(() => this.$refs.focusMe.focus())
+      }
     }
 </script>
 

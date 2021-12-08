@@ -1,8 +1,8 @@
 <template>
     <div class="add_task">
-        <my-input v-model="taskName" class="input__long input" placeholder="Текст задачи" />
+        <my-input @keydown.esc="this.$emit('show', true)" @keydown.enter="createTask" v-model="taskName" class="input__long input" placeholder="Текст задачи" />
         <div class="add_task_btns">
-        <my-btn @click="createTask" class="btn__mid" :class="[taskName.length > 0 ? null : 'not-allowed']">Добавить задачу</my-btn>
+        <my-btn  @click="createTask" class="btn__mid" :class="[taskName.length > 0 ? null : 'not-allowed']">Добавить задачу</my-btn>
         <my-btn @click="this.$emit('show', true)">Отмена</my-btn>
         </div>
     </div>

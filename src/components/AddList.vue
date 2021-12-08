@@ -5,9 +5,11 @@
         :src="close" 
         alt="close button" />
 
-        <my-input v-model="listName" 
-        class="input__short input" 
-        placeholder="Название папки" />
+        <my-input v-model="listName"
+          @keydown.enter="createList"
+          @keydown.esc="this.$emit('show', false)"
+          class="input__short input"
+          placeholder="Название папки" />
 
         <div class="colors">
             <div 
