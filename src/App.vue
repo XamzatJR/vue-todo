@@ -1,17 +1,16 @@
 <template>
   <div class="container">
-    <sidebar-l></sidebar-l>
-    <router-view>
-    </router-view>
+    <sidebar></sidebar>
+    <router-view> </router-view>
   </div>
 </template>
 
 <script>
-import SidebarL from '@/components/SidebarL.vue';
+import Sidebar from '@/components/Sidebar.vue';
 export default {
   components: {
-    SidebarL
-  }
+    Sidebar,
+  },
 };
 </script>
 
@@ -24,10 +23,9 @@ export default {
   font-family: 'Lato', sans-serif;
 }
 .container {
-    margin: 150px auto;
-    width: 746px;
-    height: 529px;
-    display: grid;
-    grid-template-columns: 200px 546px;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 5.5fr;
 }
 </style>

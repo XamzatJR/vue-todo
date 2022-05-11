@@ -1,88 +1,88 @@
 <template>
-        <div @click="$store.commit('setActiveList', null), $router.push(`/`)" :class="activeList === null ? 'list__active' : null" 
-        v-if="lists.length >= 1" class="list">
-            <img :src="entypo" alt="list svg">
-            <div class="list-name">Все задачи</div>
-        </div>
-    <div class="list"
-    :class="[activeList?.id === list.id ? 'list__active' : null]" 
-    v-for="list in lists"
-    :key="list.id" @click="$router.push(`/list/${list.id}`)">
-        <div class="list-color" :style="{background: list.color}"></div>
-        <div @click="$store.commit('setActiveList', list)" class="list-name">
-            {{list.name.length >=15 ? list.name.slice(0,14) + '...' : list.name}}
-        </div>
-        <img class="list__img" @click="$store.commit('removeList', list)" :src="deleteSvg" alt="delete list button">
-    </div>
+  <ul class="list">
+    <li
+      @click="$store.commit('setActiveList', null), $router.push(`/`)"
+      :class="activeList === null ? 'list__item_active' : null"
+      v-if="lists.length >= 1"
+      class="list__item"
+    >
+      <img :src="entypo" alt="list svg" />
+      <div class="list__item-name">Все задачи</div>
+    </li>
+    <li
+      class="list__item"
+      :class="[activeList?.id === list.id ? 'list__item_active' : null]"
+      v-for="list in lists"
+      :key="list.id"
+      @click="$router.push(`/list/${list.name}`)"
+    >
+      <div class="list__item-color" :style="{ background: list.color }"></div>
+      <div @click="$store.commit('setActiveList', list)" class="list__item-name">
+        {{ list.name.length >= 15 ? list.name.slice(0, 14) + '...' : list.name }}
+      </div>
+      <img
+        class="list__item-img"
+        @click="$store.commit('removeList', list)"
+        :src="deleteSvg"
+        alt="delete list item button"
+      />
+    </li>
+  </ul>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 import entypo from '@/assets/entypo-list.svg';
-import deleteSvg from "@/assets/delete.svg";
-    export default {
-        computed: {
-            ...mapState({
-                lists: state => state.task.lists,
-                activeList: state => state.task.activeList
-            })
-        },
-        setup() {
-            return {
-                entypo,
-                deleteSvg
-            }
-        }
-    }
+import deleteSvg from '@/assets/delete.svg';
+export default {
+  name: 'sidebar-list',
+  computed: {
+    ...mapState({
+      lists: (state) => state.task.lists,
+      activeList: (state) => state.task.activeList,
+    }),
+  },
+  setup() {
+    return {
+      entypo,
+      deleteSvg,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .list {
-    width: 160px;
-    height: 37px;
-    background: inherit;
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    &:hover &__img {
-        opacity: 1;
-    }
-    &:first-child {
-        margin: 57px 0 28px 18px;
-        cursor: pointer;
-        & img {
-            width: 18px;
-            height: 18px;
-            margin-right: 6px;
-            margin-left: 10px;
-        }
-        &-name {
-            font-weight: normal;
-        }
-    }
+  background: inherit;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  align-items: center;
+  &:hover &__img {
+    opacity: 1;
+  }
+  &__item {
     &-name {
-        font-weight: 600;
-        font-size: 14px;
-        letter-spacing: 0.15px;
-        color: #000;
-        cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.15px;
+      color: #000;
+      cursor: pointer;
     }
     &-color {
-        min-width: 10px;
-        min-height: 10px;
-        border-radius: 15px;
-        margin: 0 10px 0 12px;
+      min-width: 10px;
+      min-height: 10px;
+      border-radius: 15px;
     }
-    &__img {
-        margin-left: auto;
-        margin-right: 14px;
-        width: 10px;
-        height: 10px;
-        cursor: pointer;
-        opacity: 0;
-    } 
-    &__active {
-        background: #fff;
+    &-img {
+      width: 10px;
+      height: 10px;
+      cursor: pointer;
+      opacity: 0;
     }
+    &_active {
+      background: #fff;
+    }
+  }
 }
 </style>
