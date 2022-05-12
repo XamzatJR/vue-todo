@@ -1,15 +1,15 @@
 <template>
   <main class="main">
-    <list :list="activeList"></list>
+    <tasks :list="activeList" />
   </main>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import List from '@/components/List.vue';
+import Tasks from '@/components/Tasks.vue';
 export default {
   components: {
-    List,
+    Tasks,
   },
   computed: {
     ...mapState({

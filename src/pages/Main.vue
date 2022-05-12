@@ -3,7 +3,7 @@
     <h1 v-if="lists.length < 1" class="zero-tasks">Задачи отсутствуют</h1>
     <template v-else-if="activeList === null && lists.length >= 1">
       <template :key="list.id" v-for="list in lists">
-        <list :list="list"></list>
+        <tasks :list="list" />
       </template>
     </template>
   </main>
@@ -11,11 +11,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import List from '@/components/List.vue';
+import Tasks from '@/components/Tasks.vue';
 
 export default {
   components: {
-    List,
+    Tasks,
   },
   computed: {
     ...mapState({

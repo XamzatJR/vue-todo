@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-export const useTasksStore = defineStore('tasks', {
+export const useTaskStore = defineStore('tasks', {
   state: () => ({
-    lists: JSON.parse(localStorage.getItem('lists')) || [],
+    lists: [],
     tasks: [],
     activeList: null,
     filter: 'all', // all, completed, uncompleted
