@@ -1,1 +1,1 @@
-# Todo app on Vue 3 using Vuex and Vue-router.
+# Todo app on Vue 3 using Pinia and Vue-router.
