@@ -1,28 +1,23 @@
 <template>
   <ul class="list">
-    <li
-      @click="$store.commit('setActiveList', null), $router.push(`/`)"
-      :class="activeList === null ? 'list__item_active' : null"
-      v-if="lists.length >= 1"
-      class="list__item"
-    >
-      <img :src="entypo" alt="list svg" />
-      <div class="list__item-name">Все задачи</div>
+    <li @click="goAll" :class="activeList === null ? 'list__item_active' : null" class="list__item">
+      <img class="list__item-color" :src="entypo" alt="list svg" />
+      <div class="list__item-name">Все</div>
     </li>
     <li
       class="list__item"
       :class="[activeList?.id === list.id ? 'list__item_active' : null]"
       v-for="list in lists"
       :key="list.id"
-      @click="$router.push(`/list/${list.name}`)"
+      @click="setActiveList(list)"
     >
       <div class="list__item-color" :style="{ background: list.color }"></div>
-      <div @click="$store.commit('setActiveList', list)" class="list__item-name">
+      <div class="list__item-name">
         {{ list.name.length >= 15 ? list.name.slice(0, 14) + '...' : list.name }}
       </div>
       <img
         class="list__item-img"
-        @click="$store.commit('removeList', list)"
+        @click.stop="removeList(list)"
         :src="deleteSvg"
         alt="delete list item button"
       />
@@ -42,6 +37,22 @@ export default {
       activeList: (state) => state.task.activeList,
     }),
   },
+  methods: {
+    removeList(list) {
+      if (this.activeList === list) {
+        this.$store.commit('removeList', list);
+        this.goAll();
+      }
+    },
+    goAll() {
+      this.$store.commit('setActiveList', null);
+      this.$router.push({ name: 'Home' });
+    },
+    setActiveList(list) {
+      this.$router.push(`/list/${list.name}`);
+      this.$store.commit('setActiveList', list);
+    },
+  },
   setup() {
     return {
       entypo,
@@ -58,30 +69,46 @@ export default {
   flex-direction: column;
   list-style-type: none;
   align-items: center;
-  &:hover &__img {
-    opacity: 1;
-  }
+  width: 100%;
   &__item {
+    display: flex;
+    width: 80%;
+    height: 2rem;
+    align-items: center;
+    padding: 0 4%;
+    margin-bottom: 4%;
+    cursor: pointer;
+    &:not(.list__item_active):hover {
+      opacity: 0.6;
+    }
+    &:first-of-type &-color {
+      border-radius: 0;
+      width: 18px;
+      height: 18px;
+    }
     &-name {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 1rem;
       letter-spacing: 0.15px;
       color: #000;
-      cursor: pointer;
     }
     &-color {
-      min-width: 10px;
-      min-height: 10px;
-      border-radius: 15px;
+      margin-right: 5%;
+      width: 12px;
+      height: 12px;
+      border-radius: 1rem;
     }
     &-img {
-      width: 10px;
-      height: 10px;
-      cursor: pointer;
+      margin-left: auto;
+      width: 14px;
+      height: 14px;
       opacity: 0;
     }
     &_active {
       background: #fff;
+      &:hover .list__item-img {
+        opacity: 1;
+      }
     }
   }
 }

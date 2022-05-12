@@ -1,15 +1,13 @@
 <template>
   <div class="add-list">
-    <img @click="this.$emit('show', false)" class="close" :src="close" alt="close button" />
-
+    <img @click="closeModal" class="close" :src="close" alt="close modal button" />
     <my-input
       v-model="listName"
       @keydown.enter="createList"
-      @keydown.esc="this.$emit('show', false)"
+      @keydown.esc="closeModal"
       class="input__short input"
-      placeholder="Название папки"
+      placeholder="Название списка"
     />
-
     <div class="colors">
       <div
         @click="this.active = color"
@@ -61,6 +59,10 @@ export default {
         this.$emit('show', false);
         this.listName = '';
       }
+    },
+    closeModal() {
+      this.$emit('show', false);
+      this.listName = '';
     },
   },
   setup() {

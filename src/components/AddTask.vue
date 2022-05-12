@@ -1,7 +1,7 @@
 <template>
   <div class="add_task">
     <my-input
-      @keydown.esc="this.$emit('show', true)"
+      @keydown.esc="closeModal"
       @keydown.enter="createTask"
       v-model="taskName"
       class="input__long input"
@@ -14,7 +14,7 @@
         :class="[taskName.length > 0 ? null : 'not-allowed']"
         >Добавить задачу</my-btn
       >
-      <my-btn @click="this.$emit('show', true)">Отмена</my-btn>
+      <my-btn @click="closeModal">Отмена</my-btn>
     </div>
   </div>
 </template>
@@ -50,6 +50,9 @@ export default {
         this.$emit('show', true);
         this.taskName = '';
       }
+    },
+    closeModal() {
+      this.$emit('show', true);
     },
   },
 };

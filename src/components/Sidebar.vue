@@ -3,7 +3,7 @@
     <sidebar-list></sidebar-list>
     <div @click="showAddList" class="add">
       <img :src="add" alt="add svg" />
-      <div class="add-text">Добавить папку</div>
+      <div class="add-text">Добавить список</div>
     </div>
     <add-list v-show="show" @show="hideList"></add-list>
   </aside>
@@ -53,22 +53,27 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-top: 15%;
 }
 .add {
+  margin-top: 10%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 160px;
-  height: 37px;
+  width: 76%;
+  height: 1rem;
   cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
   & img {
-    width: 13px;
-    height: 13px;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 4%;
   }
   &-text {
     color: #767676;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 1rem;
   }
 }
 </style>

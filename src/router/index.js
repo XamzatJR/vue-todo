@@ -4,13 +4,19 @@ import ListPage from '@/pages/ListPage.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/all',
     component: Main,
+    name: 'Home',
   },
   {
     path: '/list/:id',
-    component: ListPage
-  }
+    component: ListPage,
+    name: 'ListItem',
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: { name: 'Home' },
+  },
 ];
 
 // eslint-disable-next-line no-unused-vars
@@ -18,4 +24,4 @@ const router = createRouter({
   routes,
   history: createWebHistory(process.env.BASE_URL),
 });
-export default router
+export default router;
