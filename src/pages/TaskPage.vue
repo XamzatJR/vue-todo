@@ -1,27 +1,19 @@
 <template>
-  <main class="main">
-    <tasks :list="activeList" />
-  </main>
+  <tasks :list="activeList" :tasks="filteredByList" />
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'pinia';
 import Tasks from '@/components/Tasks.vue';
+import { useTaskStore } from '../stores/task';
 export default {
   components: {
     Tasks,
   },
   computed: {
-    ...mapState({
-      activeList: (state) => state.task.activeList,
-    }),
+    ...mapState(useTaskStore, ['activeList', 'filteredByList']),
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.main {
-  height: 100%;
-  padding-left: 3rem;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import AddList from '@/components/AddList.vue';
 import add from '@/assets/add.svg';
 import SidebarList from '@/components/SidebarList.vue';
@@ -27,11 +26,6 @@ export default {
     hideList(bool) {
       this.show = bool;
     },
-  },
-  computed: {
-    ...mapState({
-      lists: (state) => state.task.lists,
-    }),
   },
   components: {
     AddList,

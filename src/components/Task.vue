@@ -1,27 +1,31 @@
 <template>
   <div :key="task.id" v-for="task in tasks" class="task">
     <my-input
-      @click="$store.commit('setCompleted', task)"
+      @click="setCompleted(task.id)"
       :id="task.id"
       type="checkbox"
       class="checkbox"
       :class="[task.completed ? 'checked' : null]"
     />
     <label :for="task.id" class="task-item">
-      {{ task.title }}
+      {{ task.text }}
     </label>
-    <img :src="deleteSvg" @click="$store.commit('removeTask', task)" />
+    <img :src="deleteSvg" @click="removeTask(task.id)" />
   </div>
 </template>
 
 <script>
 import deleteSvg from '@/assets/delete.svg';
-
+import { mapActions } from 'pinia';
+import { useTaskStore } from '../stores/task';
 export default {
   props: {
     tasks: {
       required: true,
     },
+  },
+  methods: {
+    ...mapActions(useTaskStore, ['removeTask', 'setCompleted']),
   },
   setup() {
     return {

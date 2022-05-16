@@ -16,7 +16,7 @@ export const useTaskStore = defineStore('tasks', {
       return state.tasks.filter((el) => !el.completed);
     },
     filteredByList(state) {
-      return state.tasks.filter((task) => state.activeList?.id === task.listID);
+      return state.tasks.filter((task) => task.listId === state?.activeList?.id);
     },
     filteredTasks(state) {
       switch (state.filter) {
@@ -31,30 +31,34 @@ export const useTaskStore = defineStore('tasks', {
     },
   },
   actions: {
-    addTask({ text, priority, listID }) {
+    addTask(text, priority, listId) {
       this.tasks.push({
         text,
         id: this.nextID++,
         completed: false,
         time: Date.now(),
         priority: priority || 0,
-        listId: listID || this.activeList.id,
+        listId: listId || this.activeList.id,
       });
     },
-    addList(name) {
-      this.lists.push({ id: Date.now(), name });
+    addList(name, color) {
+      const list = { id: Date.now(), name, color };
+      this.lists.push(list);
+      this.activeList = list;
     },
     setActiveList(list) {
       this.activeList = list;
     },
-    removeList(listID) {
-      this.lists = this.lists.filter((list) => list.id !== listID);
+    removeList(listId) {
+      this.lists = this.lists.filter((list) => list.id !== listId);
     },
-    setCompleted(taskID) {
-      this.tasks = this.tasks.map((el) => (el.id === taskID ? (el.completed = true) : el));
+    setCompleted(taskId) {
+      this.tasks = this.tasks.map((el) =>
+        el.id === taskId ? { ...el, completed: !el.completed } : el
+      );
     },
-    removeTask(taskID) {
-      this.tasks = this.tasks.filter((list) => list.id !== taskID);
+    removeTask(taskId) {
+      this.tasks = this.tasks.filter((list) => list.id !== taskId);
     },
   },
 });

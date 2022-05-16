@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import store from '@/store/index.js';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'pinia';
+import { useTaskStore } from '../stores/task';
 export default {
   data() {
     return {
@@ -34,19 +34,13 @@ export default {
     },
   },
   computed: {
-    ...mapState({
-      activeList: (state) => state.task.activeList,
-    }),
+    ...mapState(useTaskStore, ['activeList']),
   },
   methods: {
+    ...mapActions(useTaskStore, ['addTask']),
     createTask() {
       if (this.taskName) {
-        store.commit('setTasks', {
-          id: Date.now(),
-          title: this.taskName,
-          listId: this.activeList.id,
-          completed: false,
-        });
+        this.addTask(this.taskName, 0, this.activeList.id);
         this.$emit('show', true);
         this.taskName = '';
       }

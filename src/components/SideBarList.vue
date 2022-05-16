@@ -9,7 +9,7 @@
       :class="[activeList?.id === list.id ? 'list__item_active' : null]"
       v-for="list in lists"
       :key="list.id"
-      @click="setActiveList(list)"
+      @click="setActiveListFn(list)"
     >
       <div class="list__item-color" :style="{ background: list.color }"></div>
       <div class="list__item-name">
@@ -17,7 +17,7 @@
       </div>
       <img
         class="list__item-img"
-        @click.stop="removeList(list)"
+        @click.stop="removeListFn(list)"
         :src="deleteSvg"
         alt="delete list item button"
       />
@@ -26,31 +26,32 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'pinia';
+import { useTaskStore } from '../stores/task';
+
 import entypo from '@/assets/entypo-list.svg';
 import deleteSvg from '@/assets/delete.svg';
+
 export default {
   name: 'sidebar-list',
   computed: {
-    ...mapState({
-      lists: (state) => state.task.lists,
-      activeList: (state) => state.task.activeList,
-    }),
+    ...mapState(useTaskStore, ['lists', 'activeList']),
   },
   methods: {
-    removeList(list) {
+    ...mapActions(useTaskStore, ['removeList', 'setActiveList']),
+    removeListFn(list) {
       if (this.activeList === list) {
-        this.$store.commit('removeList', list);
+        this.removeList(list);
         this.goAll();
       }
     },
     goAll() {
-      this.$store.commit('setActiveList', null);
+      this.setActiveList(null);
       this.$router.push({ name: 'Home' });
     },
-    setActiveList(list) {
+    setActiveListFn(list) {
       this.$router.push(`/list/${list.name}`);
-      this.$store.commit('setActiveList', list);
+      this.setActiveList(list);
     },
   },
   setup() {

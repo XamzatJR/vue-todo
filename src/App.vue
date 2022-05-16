@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <sidebar></sidebar>
-    <router-view> </router-view>
+    <!-- <main class="main"> -->
+    <router-view />
+    <!-- </main> -->
   </div>
 </template>
 
@@ -27,5 +29,9 @@ export default {
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr 5.5fr;
+}
+.main {
+  height: 100%;
+  padding-left: 3rem;
 }
 </style>

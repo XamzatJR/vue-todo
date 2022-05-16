@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Main from '@/pages/Main.vue';
-import ListPage from '@/pages/ListPage.vue';
+import TaskPage from '@/pages/TaskPage.vue';
 
 const routes = [
   {
@@ -10,8 +10,8 @@ const routes = [
   },
   {
     path: '/list/:id',
-    component: ListPage,
-    name: 'ListItem',
+    component: TaskPage,
+    name: 'TaskPage',
   },
   {
     path: '/:pathMatch(.*)',

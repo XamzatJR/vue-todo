@@ -29,7 +29,8 @@
 
 <script>
 import close from '@/assets/close.svg';
-import store from '@/store/index.js';
+import { mapActions } from 'pinia';
+import { useTaskStore } from '../stores/task';
 export default {
   data() {
     return {
@@ -48,14 +49,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useTaskStore, ['addList']),
     createList() {
       if (this.listName) {
-        store.commit('setLists', {
-          ...this.active,
-          name: this.listName,
-          id: Date.now(),
-          tasks: [],
-        });
+        this.addList(this.listName, this.active.color);
+        this.$router.push(`/list/${this.listName}`);
+
         this.$emit('show', false);
         this.listName = '';
       }

@@ -1,17 +1,15 @@
 <template>
   <div>
-    <div class="main__list">
+    <div v-if="list" class="main__list">
       <h1 class="main__list-name" :style="{ color: list?.color }">
         {{ list?.name }}
       </h1>
       <img @click="editTitle" :src="edit" alt="edit icon" />
     </div>
-    <template v-if="activeList === list">
-      <task :tasks="filteredTasks[0]?.tasks"></task>
-    </template>
-    <template v-else>
-      <task :tasks="list?.tasks"></task>
-    </template>
+    <div v-else class="main__list">
+      <h1 class="main__list-name">All</h1>
+    </div>
+    <task :tasks="tasks"></task>
     <add-task v-if="!show && activeList !== null" @show="hideTask"></add-task>
     <div @click="this.show = false" v-if="show && activeList !== null" class="new_task">
       <img :src="add" alt="add new task" />
@@ -21,11 +19,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import add from '@/assets/add.svg';
-import edit from '@/assets/edite.svg';
 import AddTask from '@/components/AddTask.vue';
 import Task from '@/components/Task.vue';
+
+import add from '@/assets/add.svg';
+import edit from '@/assets/edite.svg';
 
 export default {
   data() {
@@ -37,6 +35,9 @@ export default {
     list: {
       required: true,
     },
+    tasks: {
+      required: true,
+    },
   },
   methods: {
     hideTask(bool) {
@@ -45,17 +46,7 @@ export default {
     editTitle() {
       const newTitle = window.prompt('Новое название листа', this.list.name);
       if (newTitle) this.list.name = newTitle;
-      localStorage.setItem('lists', JSON.stringify(this.lists));
     },
-  },
-  computed: {
-    ...mapState({
-      activeList: (state) => state.task.activeList,
-      lists: (state) => state.task.lists,
-    }),
-    ...mapGetters({
-      filteredTasks: 'filteredTasks',
-    }),
   },
   components: {
     AddTask,

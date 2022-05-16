@@ -1,42 +1,30 @@
 <template>
-  <main class="main">
-    <h1 v-if="lists.length < 1" class="zero-tasks">Задачи отсутствуют</h1>
-    <template v-else-if="activeList === null && lists.length >= 1">
-      <template :key="list.id" v-for="list in lists">
-        <tasks :list="list" />
-      </template>
-    </template>
-  </main>
+  <h1 v-if="tasks.length < 1" class="zero-tasks">Задачи отсутствуют</h1>
+  <tasks v-else :list="activeList" :tasks="filteredTasks" />
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'pinia';
 import Tasks from '@/components/Tasks.vue';
+import { useTaskStore } from '../stores/task';
 
 export default {
   components: {
     Tasks,
   },
   computed: {
-    ...mapState({
-      activeList: (state) => state.task.activeList,
-      lists: (state) => state.task.lists,
-    }),
+    ...mapState(useTaskStore, ['activeList', 'tasks', 'filteredTasks']),
   },
 };
 </script>
 
 <style lang="scss">
-.main {
-  height: 100%;
-  //   padding-left: 55px;
-  padding-left: 3rem;
-}
 .zero-tasks {
   font-size: 3rem;
   color: #c9d1d3;
   font-family: Montserrat;
   font-weight: bold;
   margin-top: 47vh;
+  text-align: center;
 }
 </style>
